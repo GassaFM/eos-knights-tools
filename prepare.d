@@ -22,8 +22,20 @@ int main (string [] args)
 	foreach (q; itemList)
 	{
 		auto code = q[0];
-		auto rule = ritem.array.find
-		    !(x => x["code"].integer == code).front;
+		auto ruleRange = ritem.array.find
+		    !(x => x["code"].integer == code);
+		if (ruleRange.empty)
+		{
+			writefln ("Error: item code %s not found", code);
+			return 1;
+		}
+		if (!(0 <= q[1] && q[1] <= q[2] && q[2] <= 100))
+		{
+			writefln ("Error: lo = %s and hi = %s must satisfy " ~
+			    "0 <= lo <= hi <= 100", q[1], q[2]);
+			return 1;
+		}
+		auto rule = ruleRange.front;
 		writefln ("%s %s %s %s %s %s %s %s %s", rule["code"],
 		    rule["stat1"], rule["stat2"], rule["stat3"],
 		    rule["stat1_rand_range"],

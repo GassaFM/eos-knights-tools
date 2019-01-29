@@ -2,7 +2,8 @@
 echo Getting items table...
 rdmd getter.d ritem
 echo Preparing stats...
-rdmd prepare.d $@ | tee curquest.txt
+rdmd prepare.d $@ || exit 1
+rdmd prepare.d $@ > curquest.txt
 echo Estimating chances...
 rdmd curquest.d < curquest.txt > stats.txt
 echo Done.
